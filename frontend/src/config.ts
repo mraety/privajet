@@ -1,14 +1,16 @@
-// Contract addresses — update after deployment.
-// For local Hardhat dev: run `scripts/demo.ts` and copy the printed addresses.
-// For Sepolia/mainnet: set VITE_WALLET_ADDRESS and VITE_TOKEN_ADDRESS env vars.
-
 export const CONTRACTS = {
   wallet: import.meta.env.VITE_WALLET_ADDRESS ?? "",
-  token: import.meta.env.VITE_TOKEN_ADDRESS ?? "",
+  token:  import.meta.env.VITE_TOKEN_ADDRESS  ?? "",
 };
 
-export const SUPPORTED_CHAINS: Record<number, string> = {
-  1: "Ethereum Mainnet",
-  11155111: "Sepolia",
-  31337: "Hardhat Local",
+export const RPC_URLS = {
+  mainnet: import.meta.env.VITE_MAINNET_RPC  ?? "https://cloudflare-eth.com",
+  sepolia: import.meta.env.VITE_SEPOLIA_RPC   ?? "https://rpc.sepolia.org",
+  local:   "http://127.0.0.1:8545",
+} as const;
+
+export const NETWORK_NAMES: Record<keyof typeof RPC_URLS, string> = {
+  mainnet: "Ethereum Mainnet",
+  sepolia: "Sepolia Testnet",
+  local:   "Hardhat Local",
 };

@@ -1,70 +1,57 @@
 import { ethers } from "ethers";
-import { WalletState } from "../App";
+import { Balances } from "../App";
 
-export default function BalanceCards({ state }: { state: WalletState }) {
+export default function BalanceCards({ balances }: { balances: Balances }) {
   return (
     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 28 }}>
       <Card
         label="PRIVA Balance"
-        sublabel="In your Ethereum wallet"
-        value={fmt(state.privaBalance)}
-        unit="PRIVA"
+        sublabel="In your wallet address"
+        value={fmt(balances.priva)}
         color="var(--accent)"
       />
       <Card
-        label="Wallet Balance"
-        sublabel="Deposited in PrivaJetWallet"
-        value={fmt(state.walletBalance)}
-        unit="PRIVA"
+        label="Deposited"
+        sublabel="In PrivaJetWallet contract"
+        value={fmt(balances.walletContract)}
         color="var(--green)"
-        badge={state.paused ? { text: "PAUSED", color: "var(--red)" } : undefined}
+        badge={balances.paused ? { text: "PAUSED", color: "var(--red)" } : undefined}
       />
     </div>
   );
 }
 
-function Card({
-  label, sublabel, value, unit, color, badge,
-}: {
-  label: string;
-  sublabel: string;
-  value: string;
-  unit: string;
-  color: string;
-  badge?: { text: string; color: string };
+function Card({ label, sublabel, value, color, badge }: {
+  label: string; sublabel: string; value: string;
+  color: string; badge?: { text: string; color: string };
 }) {
   return (
     <div style={{
       background: "var(--surface)", border: "1px solid var(--border)",
       borderRadius: "var(--radius)", padding: "20px 22px",
     }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 12 }}>
         <div>
-          <div style={{ fontSize: 12, color: "var(--muted)", textTransform: "uppercase", letterSpacing: ".08em" }}>
-            {label}
-          </div>
+          <div style={{ fontSize: 11, color: "var(--muted)", textTransform: "uppercase", letterSpacing: ".08em" }}>{label}</div>
           <div style={{ fontSize: 11, color: "var(--muted)", marginTop: 2 }}>{sublabel}</div>
         </div>
         {badge && (
           <span style={{
             background: badge.color + "22", color: badge.color,
             borderRadius: 5, padding: "2px 7px", fontSize: 10, fontWeight: 700,
-          }}>
-            {badge.text}
-          </span>
+          }}>{badge.text}</span>
         )}
       </div>
       <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
         <span style={{ fontSize: 28, fontWeight: 700, color }}>{value}</span>
-        <span style={{ fontSize: 13, color: "var(--muted)" }}>{unit}</span>
+        <span style={{ fontSize: 13, color: "var(--muted)" }}>PRIVA</span>
       </div>
     </div>
   );
 }
 
 function fmt(v: bigint): string {
-  const s = ethers.formatEther(v);
-  const n = parseFloat(s);
+  const n = parseFloat(ethers.formatEther(v));
   if (n === 0) return "0";
   if (n >= 1_000_000) return (n / 1_000_000).toFixed(2) + "M";
   if (n >= 1_000) return (n / 1_000).toFixed(2) + "K";
