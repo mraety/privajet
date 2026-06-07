@@ -6,14 +6,19 @@
   "scripts": {
     "test": "hardhat test",
     "compile": "hardhat compile",
-    "deploy:token:local": "hardhat run scripts/deploy_token.ts --network localhost",
-    "deploy:token:sepolia": "hardhat run scripts/deploy_token.ts --network sepolia",
-    "deploy:vesting:local": "hardhat run scripts/deploy_vesting_manager.ts --network localhost",
-    "deploy:vesting:sepolia": "hardhat run scripts/deploy_vesting_manager.ts --network sepolia",
-    "upgrade:mainnet": "hardhat run scripts/upgrade_token.ts --network mainnet",
-    "upgrade:sepolia": "hardhat run scripts/upgrade_token.ts --network sepolia",
-    "deploy:pool:sepolia": "hardhat run scripts/deploy_shielded_pool.ts --network sepolia",
-    "deploy:pool:mainnet": "hardhat run scripts/deploy_shielded_pool.ts --network mainnet"
+    "deploy:token:local": "hardhat run deploy_token.ts --network localhost",
+    "deploy:token:sepolia": "hardhat run deploy_token.ts --network sepolia",
+    "deploy:vesting:local": "hardhat run deploy_vesting_manager.ts --network localhost",
+    "deploy:vesting:sepolia": "hardhat run deploy_vesting_manager.ts --network sepolia",
+    "upgrade:token:mainnet": "hardhat run upgrade_token.ts --network mainnet",
+    "upgrade:token:sepolia": "hardhat run upgrade_token.ts --network sepolia",
+    "deploy:pool:sepolia": "hardhat run deploy_shielded_pool.ts --network sepolia",
+    "deploy:pool:mainnet": "hardhat run deploy_shielded_pool.ts --network mainnet",
+    "deploy:wallet:local": "hardhat run scripts/deploy_wallet.ts --network localhost",
+    "deploy:wallet:sepolia": "hardhat run scripts/deploy_wallet.ts --network sepolia",
+    "deploy:wallet:mainnet": "hardhat run scripts/deploy_wallet.ts --network mainnet",
+    "upgrade:wallet:sepolia": "hardhat run scripts/upgrade_wallet.ts --network sepolia",
+    "upgrade:wallet:mainnet": "hardhat run scripts/upgrade_wallet.ts --network mainnet"
   },
   "keywords": [
     "solidity",
