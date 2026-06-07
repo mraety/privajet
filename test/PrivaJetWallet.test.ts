@@ -21,10 +21,13 @@ describe("PrivaJetWallet", () => {
   const DEPOSIT_AMOUNT = ethers.parseEther("1000");
   const HALF = ethers.parseEther("500");
 
+  // The real token mints to this hardcoded multisig — we impersonate it in tests.
+  const TREASURY = "0x94B94c77Af56e11b12af99b8497Dc64216bFba55";
+
   beforeEach(async () => {
     [owner, alice, bob] = await ethers.getSigners();
 
-    // Deploy PRIVA token
+    // Deploy PRIVA token (mints to TREASURY_MULTISIG)
     const Token = await ethers.getContractFactory("PrivaJetToken");
     token = (await upgrades.deployProxy(Token, [], {
       initializer: "initialize",
@@ -52,9 +55,13 @@ describe("PrivaJetWallet", () => {
     )) as unknown as ShieldedPool;
     await pool.waitForDeployment();
 
-    // Fund alice and bob from owner's supply
-    await token.transfer(alice.address, DEPOSIT_AMOUNT * 2n);
-    await token.transfer(bob.address, DEPOSIT_AMOUNT * 2n);
+    // Impersonate the treasury multisig to distribute tokens to test accounts
+    await ethers.provider.send("hardhat_impersonateAccount", [TREASURY]);
+    await ethers.provider.send("hardhat_setBalance", [TREASURY, "0x56BC75E2D63100000"]);
+    const treasury = await ethers.getSigner(TREASURY);
+    await token.connect(treasury).transfer(alice.address, DEPOSIT_AMOUNT * 2n);
+    await token.connect(treasury).transfer(bob.address, DEPOSIT_AMOUNT * 2n);
+    await ethers.provider.send("hardhat_stopImpersonatingAccount", [TREASURY]);
 
     // Pre-approve wallet for deposits
     await token.connect(alice).approve(await wallet.getAddress(), ethers.MaxUint256);
