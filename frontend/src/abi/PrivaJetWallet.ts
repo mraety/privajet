@@ -1,0 +1,17 @@
+export const WALLET_ABI = [
+  "function deposit(uint256 amount)",
+  "function withdraw(uint256 amount)",
+  "function transfer(address to, uint256 amount)",
+  "function shield(uint256 amount, bytes32 commitment)",
+  "function unshield(uint256 amount, bytes calldata proof, bytes32 nullifier, bytes32 root)",
+  "function balanceOf(address user) view returns (uint256)",
+  "function token() view returns (address)",
+  "function shieldedPool() view returns (address)",
+  "function paused() view returns (bool)",
+  "function owner() view returns (address)",
+  "event Deposited(address indexed user, uint256 amount)",
+  "event Withdrawn(address indexed user, uint256 amount)",
+  "event Transferred(address indexed from, address indexed to, uint256 amount)",
+  "event Shielded(address indexed user, uint256 amount, bytes32 commitment)",
+  "event Unshielded(address indexed user, uint256 amount)",
+];
