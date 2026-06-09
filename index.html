@@ -3,25 +3,47 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PrivaJet — PRIVA Wallet</title>
+  <title>PrivaJet — Private Finance on Ethereum</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    :root {
+      --purple: #7c5cfc;
+      --purple-light: #a78bfa;
+      --bg: #0a0a0f;
+      --surface: #12121e;
+      --border: #1e1e2e;
+      --text: #e8e8f0;
+      --muted: #808098;
+      --dim: #505068;
+    }
+
+    html { scroll-behavior: smooth; }
+
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: #0a0a0f;
-      color: #e8e8f0;
+      background: var(--bg);
+      color: var(--text);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
     }
 
+    a { color: inherit; text-decoration: none; }
+
+    /* ── HEADER ── */
     header {
-      padding: 24px 40px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 0 40px;
+      height: 64px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid #1e1e2e;
+      background: rgba(10,10,15,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
     }
 
     .logo {
@@ -30,93 +52,345 @@
       letter-spacing: 0.04em;
       color: #fff;
     }
+    .logo span { color: var(--purple); }
 
-    .logo span {
-      color: #7c5cfc;
-    }
+    nav { display: flex; align-items: center; gap: 28px; }
 
     nav a {
-      color: #a0a0b8;
-      text-decoration: none;
+      color: var(--muted);
       font-size: 0.9rem;
-      margin-left: 28px;
       transition: color 0.2s;
     }
-
     nav a:hover { color: #fff; }
 
-    main {
-      flex: 1;
+    .nav-cta {
+      background: var(--purple);
+      color: #fff !important;
+      padding: 8px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.85rem !important;
+      transition: opacity 0.2s !important;
+    }
+    .nav-cta:hover { opacity: 0.85; }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 120px 24px 100px;
+      text-align: center;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding: 80px 24px;
-      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: -180px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(124,92,252,0.12) 0%, transparent 65%);
+      pointer-events: none;
     }
 
     .badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: rgba(124, 92, 252, 0.12);
-      border: 1px solid rgba(124, 92, 252, 0.3);
+      background: rgba(124,92,252,0.12);
+      border: 1px solid rgba(124,92,252,0.3);
       border-radius: 100px;
       padding: 6px 16px;
       font-size: 0.78rem;
-      color: #a78bfa;
+      color: var(--purple-light);
       letter-spacing: 0.06em;
       text-transform: uppercase;
       margin-bottom: 28px;
     }
-
     .badge::before {
       content: "";
-      width: 7px;
-      height: 7px;
+      width: 7px; height: 7px;
       border-radius: 50%;
-      background: #7c5cfc;
-      box-shadow: 0 0 8px #7c5cfc;
+      background: var(--purple);
+      box-shadow: 0 0 8px var(--purple);
     }
 
-    h1 {
-      font-size: clamp(2.2rem, 5vw, 3.6rem);
-      font-weight: 800;
-      line-height: 1.15;
-      letter-spacing: -0.02em;
-      margin-bottom: 20px;
+    .hero h1 {
+      font-size: clamp(2.6rem, 6vw, 4.4rem);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 24px;
+      max-width: 780px;
     }
-
-    h1 em {
+    .hero h1 em {
       font-style: normal;
-      background: linear-gradient(135deg, #7c5cfc 0%, #a78bfa 100%);
+      background: linear-gradient(135deg, var(--purple) 0%, var(--purple-light) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
 
-    .subtitle {
-      font-size: 1.1rem;
-      color: #808098;
-      max-width: 520px;
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 540px;
+      line-height: 1.7;
+      margin-bottom: 44px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, var(--purple), #6040e0);
+      color: #fff;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 14px 28px;
+      border-radius: 12px;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: var(--text);
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 14px 28px;
+      border-radius: 12px;
+      border: 1px solid #2a2a3a;
+      transition: border-color 0.2s, transform 0.15s;
+    }
+    .btn-secondary:hover { border-color: var(--purple); transform: translateY(-1px); }
+
+    /* ── STATS BAR ── */
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      padding: 28px 48px;
+      text-align: center;
+      border-right: 1px solid var(--border);
+      flex: 1;
+      min-width: 160px;
+    }
+    .stat:last-child { border-right: none; }
+
+    .stat-value {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.02em;
+    }
+    .stat-value span { color: var(--purple); }
+
+    .stat-label {
+      font-size: 0.78rem;
+      color: var(--dim);
+      margin-top: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 96px 24px; }
+
+    .section-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 0.78rem;
+      color: var(--purple);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+
+    .section-sub {
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 540px;
+      line-height: 1.7;
+      margin-bottom: 56px;
+    }
+
+    /* ── FEATURES GRID ── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid #1e1e2e;
+      border-radius: 16px;
+      padding: 28px;
+      transition: border-color 0.2s;
+    }
+    .feature-card:hover { border-color: rgba(124,92,252,0.35); }
+
+    .feature-card .icon {
+      font-size: 1.8rem;
+      margin-bottom: 16px;
+    }
+
+    .feature-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .feature-card p {
+      font-size: 0.88rem;
+      color: var(--muted);
       line-height: 1.65;
-      margin-bottom: 48px;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .how-section { background: var(--surface); }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 0;
+      position: relative;
+    }
+
+    .step {
+      padding: 32px 28px;
+      position: relative;
+    }
+
+    .step-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: rgba(124,92,252,0.15);
+      border: 1px solid rgba(124,92,252,0.3);
+      color: var(--purple-light);
+      font-weight: 700;
+      font-size: 0.88rem;
+      margin-bottom: 16px;
+    }
+
+    .step h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .step p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* ── TOKEN SECTION ── */
+    .token-section {
+      background: linear-gradient(135deg, rgba(124,92,252,0.06) 0%, transparent 60%);
+    }
+
+    .token-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    @media (max-width: 720px) {
+      .token-grid { grid-template-columns: 1fr; }
+    }
+
+    .token-details h2 {
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+
+    .token-details p {
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 28px;
+    }
+
+    .token-specs {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      background: var(--surface);
+    }
+
+    .spec-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.88rem;
+    }
+    .spec-row:last-child { border-bottom: none; }
+
+    .spec-key { color: var(--dim); }
+    .spec-val { font-weight: 600; color: var(--text); }
+    .spec-val.purple { color: var(--purple-light); }
+
+    /* ── DOWNLOAD SECTION ── */
+    #download {
+      text-align: center;
     }
 
     .download-card {
-      background: #12121e;
+      background: var(--surface);
       border: 1px solid #252535;
       border-radius: 20px;
-      padding: 36px 40px;
+      padding: 40px;
       max-width: 440px;
       width: 100%;
-      margin-bottom: 24px;
+      margin: 0 auto;
     }
 
-    .platform-icon {
-      font-size: 2.8rem;
-      margin-bottom: 16px;
-    }
+    .platform-icon { font-size: 2.8rem; margin-bottom: 16px; }
 
     .download-card h2 {
       font-size: 1.15rem;
@@ -124,7 +398,7 @@
       margin-bottom: 6px;
     }
 
-    .download-card p {
+    .download-card .req {
       font-size: 0.85rem;
       color: #60607a;
       margin-bottom: 28px;
@@ -134,30 +408,18 @@
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      background: linear-gradient(135deg, #7c5cfc, #6040e0);
+      background: linear-gradient(135deg, var(--purple), #6040e0);
       color: #fff;
-      text-decoration: none;
-      font-weight: 600;
+      font-weight: 700;
       font-size: 1rem;
       padding: 14px 32px;
       border-radius: 12px;
-      border: none;
-      cursor: pointer;
       transition: opacity 0.2s, transform 0.15s;
       width: 100%;
       justify-content: center;
     }
-
-    .btn-download:hover {
-      opacity: 0.88;
-      transform: translateY(-1px);
-    }
-
-    .btn-download:active { transform: translateY(0); }
-
-    .btn-download svg {
-      flex-shrink: 0;
-    }
+    .btn-download:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn-download svg { flex-shrink: 0; }
 
     .meta {
       font-size: 0.78rem;
@@ -165,114 +427,238 @@
       margin-top: 12px;
     }
 
-    .features {
-      display: flex;
-      gap: 32px;
-      margin-top: 64px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .feature {
-      text-align: center;
-      max-width: 160px;
-    }
-
-    .feature-icon {
-      font-size: 1.6rem;
-      margin-bottom: 10px;
-    }
-
-    .feature h3 {
-      font-size: 0.88rem;
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-
-    .feature p {
-      font-size: 0.78rem;
-      color: #505068;
-    }
-
+    /* ── FOOTER ── */
     footer {
-      padding: 24px 40px;
+      padding: 32px 40px;
       text-align: center;
       font-size: 0.78rem;
-      color: #303048;
+      color: var(--dim);
       border-top: 1px solid #1a1a2a;
+      line-height: 2;
     }
 
     footer a {
-      color: #505068;
-      text-decoration: none;
+      color: var(--dim);
       margin: 0 10px;
+      transition: color 0.2s;
     }
+    footer a:hover { color: var(--muted); }
 
-    footer a:hover { color: #a0a0b8; }
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      header { padding: 0 20px; }
+      nav a:not(.nav-cta) { display: none; }
+      .stat { padding: 20px 24px; }
+      section { padding: 64px 20px; }
+    }
   </style>
 </head>
 <body>
 
+  <!-- HEADER -->
   <header>
     <div class="logo">Priva<span>Jet</span></div>
     <nav>
+      <a href="#about">About</a>
+      <a href="#token">Token</a>
       <a href="#download">Download</a>
+      <a href="#download" class="nav-cta">Get Wallet</a>
     </nav>
   </header>
 
-  <main id="download">
-    <div class="badge">Now Available</div>
-
-    <h1>The <em>PRIVA Wallet</em><br>for Windows</h1>
-
-    <p class="subtitle">
-      Manage your PRIVA tokens securely. A native Windows desktop wallet
-      for the PrivaJet ecosystem.
-    </p>
-
-    <div class="download-card">
-      <div class="platform-icon">🪟</div>
-      <h2>Windows Desktop Wallet</h2>
-      <p>Requires Windows 10 or later &nbsp;·&nbsp; 64-bit</p>
-
-      <a class="btn-download" href="/PRIVA-wallet-setup.exe" download="PRIVA-wallet-setup.exe">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-             stroke="currentColor" stroke-width="2.2"
-             stroke-linecap="round" stroke-linejoin="round">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="badge">Now Live on Ethereum</div>
+    <h1>Private Finance,<br><em>Built for Everyone</em></h1>
+    <p>PrivaJet brings shielded transactions and true financial privacy to the Ethereum ecosystem through the PRIVA token and open-source desktop wallet.</p>
+    <div class="hero-actions">
+      <a href="#download" class="btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
           <polyline points="7 10 12 15 17 10"/>
           <line x1="12" y1="15" x2="12" y2="3"/>
         </svg>
-        Download PRIVA-wallet-setup.exe
+        Download Wallet
       </a>
-
-      <p class="meta">Free &nbsp;·&nbsp; No account required</p>
+      <a href="#about" class="btn-secondary">Learn More →</a>
     </div>
+  </section>
 
-    <div class="features">
-      <div class="feature">
-        <div class="feature-icon">🔒</div>
-        <h3>Private</h3>
-        <p>Shielded pool transactions</p>
-      </div>
-      <div class="feature">
-        <div class="feature-icon">⚡</div>
-        <h3>Fast</h3>
-        <p>Instant local key management</p>
-      </div>
-      <div class="feature">
-        <div class="feature-icon">🛡️</div>
-        <h3>Secure</h3>
-        <p>Open-source &amp; auditable</p>
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-value">1<span>B</span></div>
+      <div class="stat-label">PRIVA Supply</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">ERC<span>-20</span></div>
+      <div class="stat-label">Token Standard</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">0<span>x0</span></div>
+      <div class="stat-label">Data Collected</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">100<span>%</span></div>
+      <div class="stat-label">Open Source</div>
+    </div>
+  </div>
+
+  <!-- ABOUT / FEATURES -->
+  <section id="about">
+    <div class="section-inner">
+      <div class="section-label">Why PrivaJet</div>
+      <h2 class="section-title">Finance should be<br>private by default</h2>
+      <p class="section-sub">PrivaJet combines a privacy-focused ERC-20 token with a shielded pool smart contract and a self-custodial desktop wallet — giving you full control over your financial data.</p>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="icon">🔒</div>
+          <h3>Shielded Transactions</h3>
+          <p>Move assets through the PrivaJet shielded pool to break the on-chain link between sender and receiver addresses.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">🗝️</div>
+          <h3>Self-Custody</h3>
+          <p>Your private keys never leave your device. No accounts, no KYC, no third-party custody — you own your funds entirely.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">📖</div>
+          <h3>Open Source</h3>
+          <p>Every line of code — smart contracts and wallet — is open source and auditable. Trust math, not promises.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">⚡</div>
+          <h3>Ethereum Native</h3>
+          <p>Built directly on Ethereum mainnet. No bridges, no wrapped tokens, no additional trust assumptions.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">🛡️</div>
+          <h3>Upgradeable Contracts</h3>
+          <p>Core contracts use OpenZeppelin's upgradeable proxy pattern, enabling security fixes without migrating assets.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">🌐</div>
+          <h3>Vesting & Governance</h3>
+          <p>A dedicated Vesting Manager contract ensures transparent, on-chain token distribution for team and contributors.</p>
+        </div>
       </div>
     </div>
-  </main>
+  </section>
 
+  <!-- HOW IT WORKS -->
+  <section class="how-section">
+    <div class="section-inner">
+      <div class="section-label">How It Works</div>
+      <h2 class="section-title">Private in three steps</h2>
+      <p class="section-sub">Using the PrivaJet shielded pool is straightforward — no specialist knowledge required.</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h3>Download the Wallet</h3>
+          <p>Install the PRIVA Wallet on Windows. Your keys are generated locally and never transmitted anywhere.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h3>Deposit into the Pool</h3>
+          <p>Send PRIVA tokens into the shielded pool smart contract. Your deposit generates a private note only you hold.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h3>Withdraw Privately</h3>
+          <p>Use your private note to withdraw to any address. The on-chain link between deposit and withdrawal is broken.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <h3>Stay in Control</h3>
+          <p>No middlemen, no custodians. PrivaJet smart contracts are immutable logic — they can't freeze or seize your funds.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOKEN -->
+  <section class="token-section" id="token">
+    <div class="section-inner">
+      <div class="token-grid">
+        <div class="token-details">
+          <div class="section-label">PRIVA Token</div>
+          <h2>The fuel of the<br>PrivaJet ecosystem</h2>
+          <p>PRIVA is a standard ERC-20 token deployed on Ethereum mainnet. It is used for shielded pool deposits, protocol governance, and ecosystem incentives. The total supply is fixed and managed through a transparent on-chain vesting schedule.</p>
+          <a href="#download" class="btn-primary" style="display:inline-flex;">
+            Get Started →
+          </a>
+        </div>
+        <div class="token-specs">
+          <div class="spec-row">
+            <span class="spec-key">Name</span>
+            <span class="spec-val">PrivaJet Token</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-key">Symbol</span>
+            <span class="spec-val purple">PRIVA</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-key">Standard</span>
+            <span class="spec-val">ERC-20</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-key">Network</span>
+            <span class="spec-val">Ethereum Mainnet</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-key">Total Supply</span>
+            <span class="spec-val">1,000,000,000</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-key">Upgradeable</span>
+            <span class="spec-val">Yes (proxy pattern)</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-key">Vesting</span>
+            <span class="spec-val">On-chain manager</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DOWNLOAD -->
+  <section id="download" style="text-align:center;">
+    <div class="section-inner" style="display:flex;flex-direction:column;align-items:center;">
+      <div class="section-label">Download</div>
+      <h2 class="section-title">Get the PRIVA Wallet</h2>
+      <p class="section-sub" style="margin-bottom:40px;">A native Windows desktop wallet for managing your PRIVA tokens and interacting with the shielded pool.</p>
+
+      <div class="download-card">
+        <div class="platform-icon">🪟</div>
+        <h2>Windows Desktop Wallet</h2>
+        <p class="req">Requires Windows 10 or later &nbsp;·&nbsp; 64-bit</p>
+
+        <a class="btn-download" href="/PRIVA-wallet-setup.exe" download="PRIVA-wallet-setup.exe">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2.2"
+               stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Download PRIVA-wallet-setup.exe
+        </a>
+
+        <p class="meta">Free &nbsp;·&nbsp; No account required &nbsp;·&nbsp; Open source</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
   <footer>
-    &copy; 2025 PrivaJet &nbsp;·&nbsp; privajet.fi
-    <br style="margin-bottom:8px"/>
-    <a href="/privacy-policy.html">Privacy Policy</a>
-    <a href="/terms-of-use.html">Terms of Use</a>
+    <div>&copy; 2025 PrivaJet &nbsp;·&nbsp; privajet.fi</div>
+    <div>
+      <a href="/privacy-policy.html">Privacy Policy</a>
+      <a href="/terms-of-use.html">Terms of Use</a>
+    </div>
   </footer>
 
 </body>
