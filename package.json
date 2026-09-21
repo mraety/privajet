@@ -13,7 +13,11 @@
     "upgrade:mainnet": "hardhat run scripts/upgrade_token.ts --network mainnet",
     "upgrade:sepolia": "hardhat run scripts/upgrade_token.ts --network sepolia",
     "deploy:pool:sepolia": "hardhat run scripts/deploy_shielded_pool.ts --network sepolia",
-    "deploy:pool:mainnet": "hardhat run scripts/deploy_shielded_pool.ts --network mainnet"
+    "deploy:pool:mainnet": "hardhat run scripts/deploy_shielded_pool.ts --network mainnet",
+    "deploy:governance:local": "hardhat run scripts/deploy_governance.ts --network localhost",
+    "deploy:governance:sepolia": "hardhat run scripts/deploy_governance.ts --network sepolia",
+    "deploy:governance:mainnet": "hardhat run scripts/deploy_governance.ts --network mainnet",
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [
     "solidity",
